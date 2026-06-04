@@ -4,3 +4,13 @@ __pycache__/
 chroma_db/
 *.pyc
 .ipynb_checkpoints/
+.gradio/
+uploads/
+check_key.py
+debug.py
+test_audio.py
+test_final_pipeline.py
+test_gemini.py
+test_pipeline.py
+test_vision.py
+test_whisper.py
