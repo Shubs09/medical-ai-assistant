@@ -197,6 +197,21 @@ http://127.0.0.1:7860
 
 ---
 
+## Application Screenshots
+
+### Home Screen
+
+![Home Screen](screenshots/home.png)
+
+
+### Generated Medical Response
+
+![Response](screenshots/result.png)
+
+
+---
+
+
 ## 📋 Usage
 
 1. Upload or record a voice query.
@@ -204,15 +219,6 @@ http://127.0.0.1:7860
 3. Click Submit.
 4. Receive an AI-generated medical explanation.
 
----
-
-## ⚠️ Disclaimer
-
-This project is for educational and research purposes only.
-
-The system does not provide medical diagnoses and should not be used as a substitute for professional medical advice, diagnosis, or treatment.
-
-Always consult a qualified healthcare professional for medical concerns.
 
 ---
 
