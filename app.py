@@ -6,14 +6,12 @@ from pipeline.final_medical_pipeline import (
 
 
 def predict(audio, image):
-
+ 
     # Check audio
     if audio is None:
-        return "❌ Please upload or record an audio file."
+        return "", "❌ Please upload or record an audio file."
 
-    # Check image
-    if image is None:
-        return "❌ Please upload an image."
+  
 
     try:
 
@@ -24,15 +22,15 @@ def predict(audio, image):
 
         # Empty response check
         if not response:
-            return "❌ No response generated."
+            return "", "❌ No response generated."
 
-        return response
+        return response["question"], response["response"]
 
     except Exception as e:
 
         print("\nERROR:", e)
 
-        return f"""
+        return "", f"""
 ❌ Medical AI service error.
 
 Possible reasons:
@@ -46,38 +44,49 @@ Technical Error:
 """
 
 
-app = gr.Interface(
-    fn=predict,
+with gr.Blocks(title="🏥 Medical AI Assistant") as app:
 
-    inputs=[
-        gr.Audio(
-            sources=["upload", "microphone"],
-            type="filepath",
-            label="Upload Voice"
-        ),
+    gr.Markdown("""
+# 🏥 Medical AI Assistant
 
-        gr.Image(
-            type="filepath",
-            label="Upload Image"
-        )
-    ],
+Ask medical questions using your voice.
 
-    outputs=gr.Textbox(
-        label="Medical AI Response",
-        lines=20
-    ),
+### Features
+- 🎤 Whisper Speech-to-Text
+- 📚 Medical RAG Knowledge Base
+- 🧠 Google Gemini
+- 🖼️ Optional Medical Image Analysis
+""")
 
-    title="Medical AI Assistant",
+    audio = gr.Audio(
+        sources=["upload", "microphone"],
+        type="filepath",
+    label="🎤 Voice Query"
+    )
 
-    description="""
-Upload a voice query and image.
+    image = gr.Image(
+        type="filepath",
+        label="🖼️ Medical Image (Optional)"
+    )
 
-Features:
-• Whisper Speech-to-Text
-• Medical RAG
-• ChromaDB
-• Gemini Vision
-"""
-)
+    question = gr.Textbox(
+    label="🎤 Recognized Question",
+    interactive=False
+    )
+
+    response = gr.Textbox(
+    label="🤖 Medical Response",
+    lines=10,
+    interactive=False
+    )
+
+    submit = gr.Button("🚀 Submit")
+    
+    submit.click(
+        fn=predict,
+        inputs=[audio, image],
+        outputs=[question, response]
+    )
+
 
 app.launch()

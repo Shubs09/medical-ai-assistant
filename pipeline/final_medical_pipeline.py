@@ -27,4 +27,7 @@ def run_medical_pipeline(audio_path, image_path):
 
     print("\nFinal Response Generated")
 
-    return final_response
+    return {
+    "question": question,
+    "response": final_response
+}
