@@ -43,7 +43,7 @@ The application supports:
 - 📚 Retrieval-Augmented Generation (RAG)
 - 🔍 Semantic search using Sentence Transformers
 - 🗄️ ChromaDB vector database for document retrieval
-- 🤖 Context-aware responses powered by Gemini 2.5 Flash
+- 🤖 Context-aware responses powered by Gemini 3.6 Flash
 - 📄 Displays source documents used for answer generation
 - ⚠️ Intelligent relevance filtering for unsupported queries
 - 💻 Interactive web interface built with Gradio
@@ -138,7 +138,7 @@ The application gracefully handles:
         🖼️ Medical Image              Retrieved Context
                 │                             │
                 ▼                             ▼
-                 Google Gemini 2.5 Flash Vision
+                 Google Gemini 3.6 Flash Vision
                                │
                                ▼
                   AI-Powered Medical Response
@@ -156,7 +156,7 @@ The application gracefully handles:
 | Programming Language | Python 3.10+ |
 | Frontend | Gradio |
 | Speech-to-Text | OpenAI Whisper |
-| Large Language Model | Google Gemini 2.5 Flash |
+| Large Language Model | Google Gemini 3.6 Flash |
 | Image Understanding | Gemini Vision |
 | RAG Framework | LangChain |
 | Vector Database | ChromaDB |
