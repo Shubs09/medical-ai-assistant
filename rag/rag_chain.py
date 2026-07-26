@@ -4,7 +4,11 @@ from llm.gemini import ask_gemini
 
 def rag_answer(question):
 
-    docs = retrieve_context(question)
+    result = retrieve_context(question)
+
+    docs = result["documents"]
+
+    sources = result["sources"]
 
     context = "\n\n".join(docs)
 
@@ -24,14 +28,22 @@ Answer:
 
     response = ask_gemini(prompt)
 
-    return response
+    return {
+        "answer": response,
+        "sources": sources
+    }
 
 
 if __name__ == "__main__":
 
     question = input("Ask Question: ")
 
-    answer = rag_answer(question)
+    result = rag_answer(question)
 
     print("\nAnswer:\n")
-    print(answer)
+    print(result["answer"])
+
+    print("\nSources:\n")
+
+    for source in result["sources"]:
+        print(source)

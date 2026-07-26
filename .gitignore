@@ -14,3 +14,4 @@ test_gemini.py
 test_pipeline.py
 test_vision.py
 test_whisper.py
+test_mic.py

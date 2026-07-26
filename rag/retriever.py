@@ -14,7 +14,7 @@ collection = client.get_collection(
     name="medical_docs"
 )
 
-
+SIMILARITY_THRESHOLD = 1.05
 def retrieve_context(query, k=3):
 
     query_embedding = embedding_model.encode(
@@ -23,20 +23,46 @@ def retrieve_context(query, k=3):
 
     results = collection.query(
         query_embeddings=[query_embedding],
-        n_results=k
+        n_results=k,
+        include=["documents", "metadatas","distances"]
     )
 
-    return results["documents"][0]
+    documents = results["documents"][0]
+    distances = results["distances"][0]
+    is_relevant = len(distances) > 0 and min(distances) <= SIMILARITY_THRESHOLD
+
+    sources = []
+
+    for metadata in results["metadatas"][0]:
+        if metadata and "source" in metadata:
+            sources.append(metadata["source"])
+
+    return {
+        "documents": documents,
+        "sources": list(dict.fromkeys(sources)),
+        "distances": distances,
+        "is_relevant": is_relevant
+    }
 
 
 if __name__ == "__main__":
 
     query = input("Ask Question: ")
 
-    docs = retrieve_context(query)
+    result = retrieve_context(query)
 
     print("\nRetrieved Chunks:\n")
 
-    for i, doc in enumerate(docs, start=1):
+    for i, doc in enumerate(result["documents"], start=1):
         print(f"\nChunk {i}:\n")
         print(doc)
+
+    print("\nSources Used:\n")
+
+    for source in result["sources"]:
+        print(source)
+
+    print("\nDistances:\n")
+
+    for i, distance in enumerate(result["distances"], start=1):
+        print(f"Chunk {i}: {distance:.4f}")

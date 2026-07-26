@@ -1,169 +1,252 @@
 # 🏥 Medical AI Assistant
 
-A multimodal AI-powered medical assistant that combines **Speech-to-Text, Image Analysis, Retrieval-Augmented Generation (RAG), and Large Language Models** to provide medical insights from voice queries and medical images.
+<p align="center">
 
-## 🚀 Features
+![Python](https://img.shields.io/badge/Python-3.10+-blue?logo=python)
+![Gradio](https://img.shields.io/badge/Gradio-UI-orange)
+![LangChain](https://img.shields.io/badge/LangChain-RAG-green)
+![ChromaDB](https://img.shields.io/badge/ChromaDB-Vector%20Database-blueviolet)
+![Gemini](https://img.shields.io/badge/Google-Gemini%202.5%20Flash-red)
+![License](https://img.shields.io/badge/License-MIT-brightgreen)
 
-### 🎤 Speech-to-Text
+</p>
 
-* Converts user voice queries into text using OpenAI Whisper.
-* Supports audio upload and microphone recording.
+An AI-powered multimodal medical assistant that combines **Speech-to-Text**, **Medical Image Analysis**, **Retrieval-Augmented Generation (RAG)**, and **Google Gemini** to provide context-aware medical insights.
 
-### 🖼️ Medical Image Analysis
+Instead of relying only on an LLM, the application first retrieves relevant information from a custom medical knowledge base using semantic search and then combines that knowledge with the user's question and optional medical image to generate an informed response.
 
-* Analyzes medical images using Gemini Vision.
-* Generates detailed observations about visible symptoms and conditions.
-
-### 📚 Retrieval-Augmented Generation (RAG)
-
-* Retrieves relevant medical knowledge from custom medical documents.
-* Uses vector embeddings and semantic search.
-
-### 🗄️ ChromaDB Vector Database
-
-* Stores document embeddings for efficient retrieval.
-* Enables context-aware medical responses.
-
-### 🤖 AI-Powered Medical Responses
-
-* Combines:
-
-  * User question
-  * Medical image
-  * Retrieved medical knowledge
-* Produces a comprehensive medical explanation.
-
-### ⚠️ Error Handling
-
-* Missing audio validation
-* Missing image validation
-* Empty speech detection
-* Retriever failure handling
-* Gemini API failure handling
-* Invalid image handling
+> **Disclaimer:** This project is intended for educational purposes only and should not be used as a substitute for professional medical advice, diagnosis, or treatment.
 
 ---
 
-## 🏗️ System Architecture
+# 📖 Project Overview
 
-User Audio
-↓
-Whisper Speech-to-Text
-↓
-User Question
-↓
-RAG Retriever (ChromaDB)
-↓
-Relevant Medical Context
+Medical information available on the internet is often scattered, unreliable, or difficult to interpret. General-purpose AI models may also generate responses without grounding them in trusted medical documents.
 
-User Image
-↓
-Gemini Vision
+This project addresses that challenge by integrating Retrieval-Augmented Generation (RAG) with a multimodal AI pipeline. Instead of answering solely from the language model's knowledge, the assistant retrieves relevant information from a custom medical document collection before generating a response.
 
-Question + Image + Medical Context
-↓
-Gemini 2.5 Flash
-↓
-Final Medical Response
+The application supports:
+
+- 🎤 Voice-based medical questions using Whisper
+- 🖼️ Medical image understanding using Gemini Vision
+- 📚 Retrieval of relevant medical knowledge using ChromaDB
+- 🤖 AI-generated responses grounded in retrieved documents
+- 📄 Source attribution for retrieved medical documents
+- ⚠️ Detection of questions outside the available knowledge base
 
 ---
 
-## 🛠️ Tech Stack
+# ✨ Key Highlights
 
-### AI & Machine Learning
-
-* Google Gemini 2.5 Flash
-* OpenAI Whisper
-* Sentence Transformers
-
-### RAG Components
-
-* ChromaDB
-* LangChain Text Splitter
-* PyPDF
-
-### Frontend
-
-* Gradio
-
-### Backend
-
-* Python
+- 🎤 Speech-to-Text using OpenAI Whisper
+- 🖼️ Medical image analysis with Gemini Vision
+- 📚 Retrieval-Augmented Generation (RAG)
+- 🔍 Semantic search using Sentence Transformers
+- 🗄️ ChromaDB vector database for document retrieval
+- 🤖 Context-aware responses powered by Gemini 2.5 Flash
+- 📄 Displays source documents used for answer generation
+- ⚠️ Intelligent relevance filtering for unsupported queries
+- 💻 Interactive web interface built with Gradio
 
 ---
 
-## 📂 Project Structure
+# 🚀 Features
 
+## 🎤 Speech-to-Text
+
+- Converts voice recordings into text using OpenAI Whisper
+- Supports both microphone recording and audio file uploads
+- Automatically uses the transcribed text as the user's question
+
+---
+
+## 🖼️ Medical Image Analysis
+
+- Accepts optional medical images
+- Uses Gemini Vision to analyze visible symptoms and conditions
+- Combines image understanding with retrieved medical knowledge
+
+---
+
+## 📚 Retrieval-Augmented Generation (RAG)
+
+- Retrieves relevant medical information from a custom knowledge base
+- Uses semantic similarity search instead of keyword matching
+- Grounds responses using retrieved document context
+
+---
+
+## 🗄️ Vector Database
+
+- Stores document embeddings using ChromaDB
+- Enables fast and efficient semantic retrieval
+- Supports scalable knowledge base expansion
+
+---
+
+## 🤖 AI Response Generation
+
+The final response is generated using:
+
+- User question
+- Speech-to-text transcription (if applicable)
+- Medical image (optional)
+- Retrieved medical context
+
+This helps generate responses that are more relevant and grounded than using an LLM alone.
+
+---
+
+## ⚠️ Robust Error Handling
+
+The application gracefully handles:
+
+- Empty user input
+- Missing speech transcription
+- Invalid image uploads
+- Gemini API failures
+- Retrieval failures
+- Unsupported medical topics outside the knowledge base
+
+---
+
+# 🏗️ System Architecture
+
+```text
+                           User Input
+                               │
+                ┌──────────────┴──────────────┐
+                │                             │
+         🎤 Voice Query                 ⌨️ Text Query
+                │                             │
+                ▼                             │
+        OpenAI Whisper                        │
+                │                             │
+                └──────────────┬──────────────┘
+                               │
+                               ▼
+                      User Medical Question
+                               │
+                               ▼
+                  ChromaDB + Semantic Search
+                               │
+                               ▼
+                  Relevant Medical Documents
+                               │
+                ┌──────────────┴──────────────┐
+                │                             │
+        🖼️ Medical Image              Retrieved Context
+                │                             │
+                ▼                             ▼
+                 Google Gemini 2.5 Flash Vision
+                               │
+                               ▼
+                  AI-Powered Medical Response
+                               │
+                               ▼
+                  📄 Sources + Medical Answer
+```
+
+---
+
+# 🛠️ Tech Stack
+
+| Category | Technologies |
+|-----------|--------------|
+| Programming Language | Python 3.10+ |
+| Frontend | Gradio |
+| Speech-to-Text | OpenAI Whisper |
+| Large Language Model | Google Gemini 2.5 Flash |
+| Image Understanding | Gemini Vision |
+| RAG Framework | LangChain |
+| Vector Database | ChromaDB |
+| Embedding Model | Sentence Transformers |
+| PDF Processing | PyPDF |
+| Environment Management | Python Virtual Environment |
+
+---
+
+# 📂 Project Structure
+
+```text
 medical_ai_assistant/
-
+│
 ├── app.py
-
+│
 ├── speech/
-
-│ └── speech_to_text.py
-
-├── rag/
-
-│ ├── ingest.py
-
-│ ├── retriever.py
-
-│ └── rag_chain.py
-
+│   └── speech_to_text.py
+│
 ├── llm/
-
-│ └── gemini_vision.py
-
+│   └── gemini_vision.py
+│
+├── rag/
+│   ├── ingest.py
+│   ├── retriever.py
+│   └── rag_chain.py
+│
 ├── pipeline/
-
-│ └── final_medical_pipeline.py
-
+│   └── final_medical_pipeline.py
+│
 ├── documents/
-
-│ └── Medical PDFs
-
+│   └── Medical Knowledge Base (PDFs)
+│
 ├── chroma_db/
-
+│
 ├── uploads/
-
-├── .env
-
+│
+├── screenshots/
+│
 ├── requirements.txt
-
+├── .env
 └── README.md
+```
 
 ---
 
-## ⚙️ Installation
+# ⚙️ Installation
 
-### 1. Clone Repository
+### 1️⃣ Clone the Repository
 
 ```bash
-git clone <repository-url>
+git clone https://github.com/your-username/medical_ai_assistant.git
 cd medical_ai_assistant
 ```
 
-### 2. Create Virtual Environment
+---
+
+### 2️⃣ Create a Virtual Environment
 
 ```bash
 python -m venv venv
 ```
 
-### 3. Activate Virtual Environment
+---
 
-Windows:
+### 3️⃣ Activate the Environment
+
+**Windows**
 
 ```bash
 venv\Scripts\activate
 ```
 
-### 4. Install Dependencies
+**Linux / macOS**
+
+```bash
+source venv/bin/activate
+```
+
+---
+
+### 4️⃣ Install Dependencies
 
 ```bash
 pip install -r requirements.txt
 ```
 
-### 5. Configure Environment Variables
+---
+
+### 5️⃣ Configure Environment Variables
 
 Create a `.env` file:
 
@@ -171,9 +254,11 @@ Create a `.env` file:
 GEMINI_API_KEY=YOUR_API_KEY
 ```
 
-### 6. Install FFmpeg
+---
 
-Required for Whisper Speech-to-Text.
+### 6️⃣ Install FFmpeg
+
+Whisper requires FFmpeg.
 
 Verify installation:
 
@@ -183,13 +268,13 @@ ffmpeg -version
 
 ---
 
-## ▶️ Running the Application
+# ▶️ Running the Application
 
 ```bash
 python app.py
 ```
 
-Open:
+Open your browser and visit:
 
 ```text
 http://127.0.0.1:7860
@@ -197,35 +282,95 @@ http://127.0.0.1:7860
 
 ---
 
-## Application Screenshots
+# 📋 Usage
 
-### Home Screen
-
-![Home Screen](screenshots/home.png)
-
-
-### Generated Medical Response
-
-![Response](screenshots/result.png)
-
+1. Launch the application.
+2. Type a medical question or record/upload your voice.
+3. Optionally upload a medical image.
+4. Click **Analyze**.
+5. The assistant retrieves relevant medical information from the knowledge base.
+6. Gemini generates a context-aware medical response.
+7. The retrieved source documents are displayed along with the response.
 
 ---
 
+# 📸 Application Screenshots
 
-## 📋 Usage
+## 🏠 Home Screen
 
-1. Upload or record a voice query.
-2. Upload a medical image.
-3. Click Submit.
-4. Receive an AI-generated medical explanation.
-
+![Home Screen](screenshots/home.jpeg)
 
 ---
 
-## 👨‍💻 Author
+## 🤖 AI-Generated Medical Response
 
-Shubham Rajput
+![Medical Response](screenshots/result.jpeg)
 
-B.Tech Artificial Intelligence & Data Science
+---
 
-Generative AI | Machine Learning | Data Science
+## 🎤 Voice Query 
+
+![Voice Query](screenshots/voice_query.jpeg)
+
+---
+
+## 🖼️ Medical Image Analysis
+
+![Image Analysis](screenshots/image_analysis.jpeg)
+
+---
+
+## ❌ Unsupported Query Detection
+
+![Unsupported Query](screenshots/no_context.jpeg)
+
+---
+
+# 🚀 Future Improvements
+
+Some features planned for future versions include:
+
+- 💬 Multi-turn conversational memory
+- 🌍 Multi-language support
+- 📑 Medical report summarization
+- 💊 Prescription OCR and analysis
+- ☁️ Cloud deployment
+- 🔐 User authentication
+- 📊 Medical dashboard and analytics
+- 📱 Mobile-friendly interface
+
+---
+
+# 🤝 Contributing
+
+Contributions, suggestions, and improvements are welcome.
+
+If you'd like to contribute:
+
+1. Fork this repository.
+2. Create a new feature branch.
+3. Commit your changes.
+4. Submit a Pull Request.
+
+---
+
+# 📜 License
+
+This project is licensed under the MIT License. See the LICENSE file for details.
+---
+
+# 👨‍💻 Author
+
+**Shubham Rajput**
+
+B.Tech – Artificial Intelligence & Data Science
+
+Interested in:
+
+- Generative AI
+- Machine Learning
+- Retrieval-Augmented Generation (RAG)
+- Large Language Models (LLMs)
+- AI Application Development
+
+If you found this project useful, consider giving it a ⭐ on GitHub.

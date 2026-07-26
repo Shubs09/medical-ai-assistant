@@ -58,9 +58,10 @@ def ingest_documents():
                 ).tolist()
 
                 collection.add(
-                    ids=[str(doc_id)],
-                    documents=[chunk],
-                    embeddings=[embedding]
+                ids=[str(doc_id)],
+                documents=[chunk],
+                embeddings=[embedding],
+                metadatas=[{"source": file}]
                 )
 
                 doc_id += 1
