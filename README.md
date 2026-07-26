@@ -6,7 +6,7 @@
 ![Gradio](https://img.shields.io/badge/Gradio-UI-orange)
 ![LangChain](https://img.shields.io/badge/LangChain-RAG-green)
 ![ChromaDB](https://img.shields.io/badge/ChromaDB-Vector%20Database-blueviolet)
-![Gemini](https://img.shields.io/badge/Google-Gemini%202.5%20Flash-red)
+![Gemini](https://img.shields.io/badge/Google-Gemini%203.6%20Flash-red)
 ![License](https://img.shields.io/badge/License-MIT-brightgreen)
 
 </p>
