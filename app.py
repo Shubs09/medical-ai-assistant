@@ -371,8 +371,15 @@ Built with **Whisper • ChromaDB • Sentence Transformers • Google Gemini �
 """,
 elem_classes="footer")
 
+import os
+
 try:
     print("Launching Medical AI Assistant...")
-    app.launch()
+    port = int(os.environ.get("PORT", 7860))
+
+    app.launch(
+        server_name="0.0.0.0",
+        server_port=port
+    )
 except Exception as e:
     print("Launch Error:", e)
