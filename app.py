@@ -270,7 +270,6 @@ Examples:
                         examples=[
                             ["What are the symptoms of diabetes?"],
                             ["What causes asthma?"],
-                            ["How can I reduce fever naturally?"],
                             ["What causes high blood pressure?"],
                             ["What does this skin rash look like?"]
                         ],
@@ -374,10 +373,6 @@ elem_classes="footer")
 
 try:
     print("Launching Medical AI Assistant...")
-    app.launch(
-        server_name="127.0.0.1",
-        server_port=7860,
-        share=False
-    )
+    app.launch()
 except Exception as e:
     print("Launch Error:", e)

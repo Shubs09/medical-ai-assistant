@@ -1,7 +1,7 @@
 venv/
+.venv/
 __pycache__/
 .env
-chroma_db/
 *.pyc
 .ipynb_checkpoints/
 .gradio/

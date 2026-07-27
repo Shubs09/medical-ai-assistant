@@ -3,13 +3,24 @@ from PIL import Image
 from dotenv import load_dotenv
 import os
 
+# =====================================
+# Load Environment Variables
+# =====================================
+
 load_dotenv()
 
+api_key = os.getenv("GEMINI_API_KEY")
 
-client = genai.Client(
-    api_key=os.getenv("GEMINI_API_KEY")
-)
+if not api_key:
+    raise ValueError(
+        "GEMINI_API_KEY is not configured. "
+        "Please add it to your .env file (local) or Hugging Face Secrets."
+    )
+
+client = genai.Client(api_key=api_key)
+
 MODEL_NAME = "gemini-3.6-flash"
+
 
 def analyze_image(image_path, question, context):
 
@@ -37,17 +48,19 @@ Answer:
 """
 
         if image_path is not None:
-            image = Image.open(image_path)
 
-            response = client.models.generate_content(
-                model=MODEL_NAME,
-                contents=[
-                    prompt,
-                    image
-                ]
-            )
+            with Image.open(image_path) as image:
+
+                response = client.models.generate_content(
+                    model=MODEL_NAME,
+                    contents=[
+                        prompt,
+                        image
+                    ]
+                )
 
         else:
+
             response = client.models.generate_content(
                 model=MODEL_NAME,
                 contents=prompt
@@ -86,7 +99,7 @@ Please try one of the following:
             return """
 ❌ Invalid Gemini API Key
 
-Please check your GEMINI_API_KEY in the .env file.
+Please check your GEMINI_API_KEY.
 """
 
         # -------------------------------
@@ -105,10 +118,10 @@ to access the requested model.
         # Network Error
         # -------------------------------
         elif (
-        "Connection" in error_message
-        or "Timeout" in error_message
-        or "Network" in error_message
-    ):
+            "Connection" in error_message
+            or "Timeout" in error_message
+            or "Network" in error_message
+        ):
 
             return """
 🌐 Unable to connect to Gemini.
