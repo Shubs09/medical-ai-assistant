@@ -375,19 +375,23 @@ elem_classes="footer")
 
 import os
 
-import os
-
-if __name__ == "__main__":
+try:
     print("Launching Medical AI Assistant...")
 
-    port = os.getenv("PORT")
+    port = int(os.environ.get("PORT", 7860))
 
-    if port:
-        print(f"Running on Render on port {port}")
+    # If running on Hugging Face/Render
+    if os.environ.get("SPACE_ID") or os.environ.get("PORT"):
         app.launch(
             server_name="0.0.0.0",
-            server_port=int(port)
+            server_port=port
         )
+
+    # Running locally
     else:
-        print("Running locally")
-        app.launch()
+        app.launch(
+            inbrowser=True
+        )
+
+except Exception as e:
+    print("Launch Error:", e)
