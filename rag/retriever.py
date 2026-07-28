@@ -1,35 +1,54 @@
 from sentence_transformers import SentenceTransformer
 import chromadb
 
-embedding_model = SentenceTransformer(
-    "sentence-transformers/all-MiniLM-L6-v2"
-)
+embedding_model = None
+collection = None
 
 
-client = chromadb.PersistentClient(
-    path="rag/chroma_db"
-)
+def get_collection():
+    global embedding_model, collection
 
-collection = client.get_collection(
-    name="medical_docs"
-)
+    if embedding_model is None:
+        print("Loading embedding model...")
+        embedding_model = SentenceTransformer(
+            "sentence-transformers/all-MiniLM-L6-v2"
+        )
+
+    if collection is None:
+        print("Connecting to ChromaDB...")
+        client = chromadb.PersistentClient(
+            path="rag/chroma_db"
+        )
+
+        collection = client.get_collection(
+            name="medical_docs"
+        )
+
+    return embedding_model, collection
+
 
 SIMILARITY_THRESHOLD = 1.05
+
+
 def retrieve_context(query, k=3):
 
-    query_embedding = embedding_model.encode(
-        query
-    ).tolist()
+    embedding_model, collection = get_collection()
+
+    query_embedding = embedding_model.encode(query).tolist()
 
     results = collection.query(
         query_embeddings=[query_embedding],
         n_results=k,
-        include=["documents", "metadatas","distances"]
+        include=["documents", "metadatas", "distances"]
     )
 
     documents = results["documents"][0]
     distances = results["distances"][0]
-    is_relevant = len(distances) > 0 and min(distances) <= SIMILARITY_THRESHOLD
+
+    is_relevant = (
+        len(distances) > 0
+        and min(distances) <= SIMILARITY_THRESHOLD
+    )
 
     sources = []
 

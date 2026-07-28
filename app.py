@@ -112,11 +112,13 @@ css = """
     color:#9ca3af;
 }
 """
+print("Importing pipeline...")
 
 from pipeline.final_medical_pipeline import (
     run_medical_pipeline
 )
 
+print("Pipeline imported successfully")
 
 def predict(
     text_question,
@@ -373,14 +375,18 @@ elem_classes="footer")
 
 import os
 
+import os
+
 if __name__ == "__main__":
     print("Launching Medical AI Assistant...")
 
-    if os.getenv("RENDER"):
-        print("Running on Render")
+    port = os.getenv("PORT")
+
+    if port:
+        print(f"Running on Render on port {port}")
         app.launch(
             server_name="0.0.0.0",
-            server_port=int(os.environ.get("PORT", 7860))
+            server_port=int(port)
         )
     else:
         print("Running locally")
